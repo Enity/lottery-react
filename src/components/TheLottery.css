@@ -1,0 +1,27 @@
+.window-big {
+  width: 85%;
+  min-height: 85%;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.2);
+  padding: 20px 0;
+}
+.window-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.lottery-header {
+  cursor: pointer;
+  user-select: none;
+  animation: header .2s 3;
+}
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+@keyframes header {
+  0% {transform: rotate(0deg)}
+  50% {transform: rotate(5deg)}
+  100% {transform: rotate(-5deg)}
+}

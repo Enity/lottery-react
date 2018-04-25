@@ -1,0 +1,30 @@
+.ticket {
+  background-color: rgb(226, 198, 39);
+  height: 100px;
+  width: 250px;
+  border-radius: 6px;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, .17);
+  padding: 26px 0;
+}
+.ticket-content {
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border-top: 2px dotted white;
+  border-bottom: 2px dotted white;
+}
+.ticket-number {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 36px;
+  min-height: 50px;
+  color: white;
+}
+.ticket-btn {
+  color: brown;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  font-weight: bold;
+  text-transform: uppercase;
+}
