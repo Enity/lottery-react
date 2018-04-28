@@ -1,0 +1,21 @@
+.lohotron {
+  text-align: center;
+}
+
+.lohotron-btn {
+  user-select: none;
+  color: brown;
+  text-transform: uppercase;
+  font-size: 26px;
+  cursor: pointer;
+}
+.lohotron-number {
+  font-size: 30px;
+  margin-top: 15px;
+  border: 2px solid brown;
+  display: inline-block;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 50%;
+  font-weight: bold;
+}

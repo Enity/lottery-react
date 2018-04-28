@@ -6,7 +6,8 @@ import Checkbox from './ui/checkbox';
 import Lohotron from './Lohotron';
 import './TheLottery.css';
 
-let Lottery = ({ tickets, currentNumber, twoPlayers, startLohotron, getNewTicket, twoPlayersMode }) => {
+let Lottery = ({ tickets, winnerTicket, currentNumber,
+  gameProgress, twoPlayers, startLohotron, getNewTicket, twoPlayersMode }) => {
   return (
     <div className="window-big">
       <div className="window-header">
@@ -18,17 +19,21 @@ let Lottery = ({ tickets, currentNumber, twoPlayers, startLohotron, getNewTicket
           curentNumber={currentNumber}
           startLohotron={startLohotron}
         />
-        <Checkbox
-          checked={twoPlayers}
-          onChange={twoPlayersMode}
-          text='Two players'/>
-
-        {tickets.map((ticket, index) => (
-          <Ticket
-            key={index}
-            ticketNumber={ticket}
-            onClick={() => getNewTicket(index)} />
-        ))
+        <div className='tickets-row'>
+          {tickets.map((ticket, index) => (
+            <Ticket
+              key={index}
+              win={winnerTicket === index ? true : false}
+              ticketNumber={ticket}
+              onClick={() => getNewTicket(index)} />
+          ))
+          }
+        </div>
+        {gameProgress === 'pending' &&
+          <Checkbox
+            checked={twoPlayers}
+            onChange={twoPlayersMode}
+            text='Two players' />
         }
       </div>
     </div>
@@ -39,7 +44,9 @@ const mapStateToProps = (state) => {
   return {
     tickets: state.lottery.tickets,
     twoPlayers: state.lottery.twoPlayers,
-    currentNumber: state.lottery.currentNumber
+    currentNumber: state.lottery.currentNumber,
+    winnerTicket: state.lottery.winnerTicket,
+    gameProgress: state.lottery.gameProgress
   }
 }
 
