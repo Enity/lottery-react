@@ -1,73 +1,50 @@
-import {
-  SET_NEW_TICKET, TWO_PLAYERS_MODE, SET_WINNER,
-  SET_GAME_PROGRESS, SET_NEW_ROUND_DATA
-} from '../actions/index';
-
-let max = 100;
-const newTicket = () => getNumber(max);
+import { handleActions } from 'redux-actions';
 
 const initialState = () => {
-  const twoPlayers = true;
   return {
-    twoPlayers: twoPlayers,
-    tickets: twoPlayers ? [newTicket(), newTicket()] : [newTicket()],
+    tickets: [0, 1],
     currentNumber: null,
+    numbersStack: [],
     winnerTicket: null,
     gameProgress: 'pending'
   }
 };
 
-export default function Lottery(state = initialState(), action) {
-  switch (action.type) {
-    case SET_NEW_TICKET:
-      return {
-        ...state,
-        tickets: tickets(state.tickets, action)
-      }
-    case TWO_PLAYERS_MODE:
-      if (action.mode === true) {
-        return {
-          ...state,
-          twoPlayers: true,
-          tickets: state.tickets.concat(newTicket())
-        }
-      }
-      else {
-        return {
-          ...state,
-          twoPlayers: false,
-          tickets: state.tickets.splice(0, 1)
-        }
-      }
-    case SET_NEW_ROUND_DATA:
-      return {
-        ...state,
-        currentNumber: action.newNumber
-      }
-    case SET_GAME_PROGRESS:
-      return {
-        ...state,
-        gameProgress: action.gameState
-      }
-    case SET_WINNER:
-      return {
-        ...state,
-        winnerTicket: action.winnerTicket
-      }
-    default:
-      return state;
-  }
-}
+const Lottery = handleActions({
+  SET_NEW_TICKET: (state, { payload }) => ({
+    ...state,
+    tickets: updateTicket(state.tickets, payload.ticketId, payload.value)
+  }),
+  ADD_NEW_TICKET: (state, { payload }) => ({
+    ...state,
+    tickets: state.tickets.concat(payload.newTicket)
+  }),
+  REMOVE_TICKET: state => ({
+    ...state,
+    tickets: state.tickets.splice(0, 1)
+  }),
+  SET_NEW_ROUND_DATA: (state, { payload }) => ({
+    ...state,
+    currentNumber: payload.newNumber,
+    numbersStack: state.numbersStack.concat(payload.newNumber)
+  }),
+  SET_GAME_PROGRESS: (state, { payload }) => ({
+    ...state,
+    gameProgress: payload.gameState
+  }),
+  SET_WINNER: (state, { payload }) => ({
+    ...state,
+    winnerTicket: payload.winnerTicket
+  })
+},
+  initialState()
+);
 
-function tickets(state = [], action) {
-  return state.map((item, i) => {
-    if (action.ticketId === i) return newTicket();
+export default Lottery;
+
+function updateTicket(tickets, ticketId, newValue) {
+  return tickets.map((item, i) => {
+    if (ticketId === i) return newValue;
     return item;
   })
-}
-
-function getNumber(max) {
-  let rand = 0 + Math.random() * (max + 1 - 0);
-  rand = Math.floor(rand);
-  return rand;
 }

@@ -1,44 +1,50 @@
-import { 
-  START_LOHOTRON, SET_NEW_ROUND_DATA,
-  SET_GAME_PROGRESS, SET_WINNER, SET_NEW_TICKET,
-  GET_NEW_TICKET
-} from '../actions/index';
+import { actionsPrivate as act } from '../actions';
 //import { delay } from 'redux-saga'
 import { put, takeEvery, select } from 'redux-saga/effects';
 
 const getLottery = state => state.lottery;
+const maxValue = 100;
 
 function* lohotronRound() {
-  const { gameProgress, tickets } = yield select(getLottery);
-  if (gameProgress === 'finished') return;
-  let newNumber = getNumber(100);
-  if (gameProgress === 'pending') {
-    yield put({type: SET_GAME_PROGRESS, gameState: 'started'});
+  const { gameProgress, tickets, numbersStack } = yield select(getLottery);
+  if (gameProgress === 'finished') return; // return if game ended
+  let newNumber = getNewTicketValue();
+  while (numbersStack.indexOf(newNumber) !== -1) { // get unique ticket value
+    newNumber = getNewTicketValue();
   }
-  yield put({ type: SET_NEW_ROUND_DATA, newNumber: newNumber});
-  let winner = yield findWinner(newNumber, tickets);
-  console.log(winner);
+  if (gameProgress === 'pending') {
+    yield put(act.setGameProgress('started'));  // start game
+  }
+  yield put(act.setNewRoundData(newNumber));
+  let winner = yield findWinner(newNumber, tickets); // try to find winner
   if (winner !== false) {
-    yield put({type: SET_WINNER, winnerTicket: winner});
-    yield put({type: SET_GAME_PROGRESS, gameState: 'finished'});
+    yield put(act.setWinner(winner));
+    yield put(act.setGameProgress('finished'));
   }
 }
 
-function* getNewTicket(action) {
+function* getNewTicket({ payload }) {
+  let newValue = getNewTicketValue(maxValue);
   const { gameProgress } = yield select(getLottery);
   if (gameProgress === 'pending') {
-    yield put({type: SET_NEW_TICKET, ticketId: action.ticketId });
+    yield put(act.setNewTicket(payload.ticketId, newValue ));
   }
 }
 
-/* function* setPlayersQuantity() {
-  yield delay(1000)
-  yield put({ type: START_LOHOTRON })
-} */
+function* setPlayersQuantity({ payload }) {
+  if (payload.bool) {   
+    yield put(act.addNewTicket());
+    yield put(act.setNewTicket(1, getNewTicketValue()));
+  }
+  else {
+    yield put(act.removeTicket());
+  }
+}
 
 export default function* rootSaga() {
-  yield takeEvery(START_LOHOTRON, lohotronRound);
-  yield takeEvery(GET_NEW_TICKET, getNewTicket);
+  yield takeEvery('START_LOHOTRON', lohotronRound);
+  yield takeEvery('GET_NEW_TICKET', getNewTicket);
+  yield takeEvery('TWO_PLAYERS_MODE', setPlayersQuantity)
 };
 
 function findWinner(number, tickets) {
@@ -47,8 +53,8 @@ function findWinner(number, tickets) {
   return winner;
 }
 
-function getNumber(max) {
-  let rand = 0 + Math.random() * (max + 1 - 0);
+function getNewTicketValue() {
+  let rand = 1 + Math.random() * (maxValue + 1 - 1);
   rand = Math.floor(rand);
   return rand;
 }

@@ -1,6 +1,6 @@
 .window-big {
   width: 85%;
-  min-height: 85%;
+  height: 85%;
   background-color: #f7f7f7;
   border-radius: 5px;
   box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.2);
@@ -8,7 +8,16 @@
 }
 .window-header {
   text-align: center;
+  height: 20%;
   margin-bottom: 15px;
+}
+.window-controls-bottom {
+  position: absolute;
+  bottom: 40px;
+}
+.window-body {
+  position: relative;
+  height: 80%;
 }
 .lottery-header {
   cursor: pointer;
@@ -18,11 +27,33 @@
 .container {
   width: 90%;
   margin: 0 auto;
+  height: 100%;
 }
 .tickets-row {
-  margin-top: 25px;
+  position: absolute;
+  width: 100%;
+  bottom: 35%;
+  margin-top: 5%;
   display: flex;
   justify-content: space-around;
+}
+
+@media only screen and (max-width: 576px) {
+  .tickets-row {
+    flex-direction: column;
+    position: relative;
+  }
+  .window-big {
+    height: auto;
+  }
+  .tickets-row > div {
+    margin-bottom: 15px;
+  }
+  .window-controls-bottom {
+    position: relative;
+    bottom: 0;
+    margin-top: 20px;
+  }
 }
 
 @keyframes header {

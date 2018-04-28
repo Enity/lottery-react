@@ -20,18 +20,13 @@ const actionsPublic = createActions({
 });
 
 const actionsPrivate = createActions({
-  SET_NEW_TICKET: ticketId => ({ ticketId }),
+  SET_NEW_TICKET: (ticketId, value) => ({ ticketId, value }),
+  ADD_NEW_TICKET: newTicket => ({ newTicket }),
+  REMOVE_TICKET: undefined,
   SET_NEW_ROUND_DATA: newNumber => ({ newNumber }),
   SET_GAME_PROGRESS: gameState => ({ gameState }),
-  SET_WINNER: winnerTicket => ( {winnerTicket })
+  SET_WINNER: winnerTicket => ({ winnerTicket })
 })
 
-export function getTicket(ticketId) {
-  return { type: GET_NEW_TICKET, ticketId };
-}
-export function twoPlayersMode(mode) {
-  return { type: TWO_PLAYERS_MODE, mode };
-}
-export function startLohotron() {
-  return { type: START_LOHOTRON };
-}
+
+export { actionsPublic, actionsPrivate };
