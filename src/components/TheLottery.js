@@ -38,6 +38,7 @@ let Lottery = ({ tickets, winnerTicket, currentNumber,
             }
           </div>
         </div>
+        <div className="window-footer">Try to hold the spacebar!</div>
       </div>
     </div>
   );

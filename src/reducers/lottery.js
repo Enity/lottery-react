@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 
 const initialState = () => {
   return {
-    tickets: [0, 1],
+    tickets: [23, 32],
     currentNumber: null,
     numbersStack: [],
     winnerTicket: null,

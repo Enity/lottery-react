@@ -1,9 +1,11 @@
+import throttle from 'lodash/throttle';
 import { actionsPublic as act } from './actions';
 
 export default function createKeyBindings(store) {
-  document.onkeyup = function (e) { //spacebar
-    if (e.keyCode === 32) {
-      store.dispatch(act.startLohotron());
-    }
-  }
+  const eventThrottled = throttle(e => {
+    if (e.keyCode !== 32) return;
+    store.dispatch(act.startLohotron())
+  },
+    150, { 'trailing': false });
+  document.addEventListener('keydown', eventThrottled)
 }
