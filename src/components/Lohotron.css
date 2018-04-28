@@ -1,5 +1,6 @@
 .lohotron {
   text-align: center;
+  z-index: 15;
 }
 
 .lohotron-btn {
@@ -9,13 +10,19 @@
   font-size: 26px;
   cursor: pointer;
 }
-.lohotron-number {
-  font-size: 30px;
-  margin-top: 15px;
+.lohotron-number-wrapper {
+  margin: 15px auto;
+  justify-content: center;
+  align-items: center;
   border: 2px solid brown;
-  display: inline-block;
-  padding: 15px;
-  margin-bottom: 15px;
+  display: flex;
+  width: 70px;
+  height: 70px;
+  z-index: 5;
   border-radius: 50%;
+}
+.lohotron-number-wrapper div {
+  margin-bottom: 5px;
+  font-size: 30px;
   font-weight: bold;
 }

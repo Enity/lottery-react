@@ -1,9 +1,9 @@
-import { START_LOHOTRON } from './actions';
+import { actionsPublic as act } from './actions';
 
 export default function createKeyBindings(store) {
-  document.onkeyup = function (e) {
+  document.onkeyup = function (e) { //spacebar
     if (e.keyCode === 32) {
-      store.dispatch({type: START_LOHOTRON});
+      store.dispatch(act.startLohotron());
     }
   }
 }
